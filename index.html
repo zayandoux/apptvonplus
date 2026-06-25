@@ -1,7 +1,3 @@
-Entendi! O que está acontecendo é que as imagens originais da Globoplay têm proporções ligeiramente diferentes do espaço do card, o que faz com que o navegador adicione essas faixas pretas para "encaixar" a foto inteira.
-Para resolver isso e dar aquele leve zoom sumindo com as faixas, mudei a propriedade background-size: cover; para **background-size: 104% auto;** (ou 105%). Isso força a imagem a crescer só um pouquinho além das bordas, cortando as linhas pretas de cima e de baixo sem estragar a foto.
-Aqui está o código atualizado com esse ajuste aplicado:
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
