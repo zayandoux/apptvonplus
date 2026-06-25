@@ -173,13 +173,13 @@ body {
     align-items: center;
 }
 
-/* MODIFICADO: background-size alterado para cover para dar zoom e eliminar faixas pretas */
+/* AJUSTADO: Zoom manual para cortar as bordas pretas que vêm gravadas nativamente nas imagens */
 .thumb-container {
     position: relative;
     width: 140px;
     min-width: 140px;
     height: 80px;
-    background-size: cover; 
+    background-size: 115% auto; 
     background-position: center center;
     background-repeat: no-repeat;
     background-color: #2a2a2a;
@@ -735,8 +735,8 @@ body {
 </div>
 
 <script>
-    // AJUSTADO: Removido o bloco DOMContentLoaded que forçava a última temporada a iniciar aberta.
-    // Agora todas iniciam fechadas por padrão.
+    // Ajustado: O bloco que abria a temporada automaticamente foi totalmente removido.
+    // Todas as abas de temporadas começam ocultas.
 
     function toggleSeason(button) {
         const currentSection = button.parentElement;
