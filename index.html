@@ -23,7 +23,7 @@ body {
 
 /* --- TOPO DA PÁGINA --- */
 .hero {
-    height: 48vh;
+    height: 35vh;
     background: url('https://api.metro1.com.br/filmes/164,serie-origem-transforma-uma-estrada-em-porta-de-entrada-para-um-suspense-sobre-a-sobrevivencia-e-o-sobrenatural-3.jpg') center top/cover;
     position: relative;
 }
@@ -32,13 +32,13 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(20,20,20,0.1) 0%, rgba(20,20,20,0.7) 50%, rgba(20,20,20,1) 100%);
+    background: linear-gradient(180deg, rgba(20,20,20,0.1) 0%, rgba(20,20,20,0.6) 50%, rgba(20,20,20,1) 100%);
 }
 
 .series-details {
-    padding: 0 20px 20px;
+    padding: 0 20px 10px;
     max-width: 800px;
-    margin: -60px auto 0;
+    margin: -40px auto 0;
     position: relative;
     z-index: 5;
 }
@@ -46,17 +46,7 @@ body {
 .series-title {
     font-size: 32px;
     font-weight: 700;
-    margin-bottom: 14px;
-}
-
-.badge-new {
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
 }
 
 .meta-row {
@@ -81,99 +71,17 @@ body {
     font-size: 15px;
     line-height: 1.4;
     color: #cccccc;
-    margin-bottom: 24px;
+    margin-bottom: 15px;
 }
 
-.main-actions {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 30px;
-}
-
-.btn-assista {
-    flex: 1;
-    background: #ffffff;
-    color: #000000;
-    border: none;
-    padding: 14px;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.btn-lista {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    border: none;
-    padding: 14px 24px;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.nav-tabs {
-    display: flex;
+/* Aba simples apenas para demarcar os episódios */
+.nav-tabs-clean {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     margin-bottom: 24px;
-}
-
-.tab-item {
-    padding: 12px 16px;
+    padding-bottom: 10px;
     font-size: 16px;
     font-weight: 600;
-    color: #999;
-    cursor: pointer;
-    position: relative;
-}
-
-.tab-item.active {
     color: #ffffff;
-}
-
-.tab-item.active::after {
-    content: "";
-    position: absolute;
-    bottom: -1px;
-    left: 16px;
-    right: 16px;
-    height: 2px;
-    background: #ffffff;
-}
-
-/* --- PLAYER DINÂMICO --- */
-.main-player-wrapper {
-    max-width: 800px;
-    margin: 0 auto 24px;
-    display: none;
-}
-
-.video-box {
-    position: relative;
-    width: 100%;
-    padding-top: 56.25%;
-    background: #000;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.video-box iframe {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    border: none;
-}
-
-.close-player {
-    text-align: right;
-    padding-bottom: 8px;
-    font-size: 14px;
-    color: #999;
-    cursor: pointer;
 }
 
 /* --- SELETOR DE TEMPORADAS --- */
@@ -195,7 +103,7 @@ body {
     font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     cursor: pointer;
     padding: 10px 0;
     width: 100%;
@@ -208,44 +116,41 @@ body {
     font-weight: 400;
 }
 
+/* ÍCONE DA SETA TOTALMENTE CENTRALIZADO */
 .arrow-icon {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     border: 2px solid rgba(255,255,255,0.4);
     border-radius: 50%;
-    position: relative;
-    transition: transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
 }
 
 .arrow-icon::after {
     content: "";
-    position: absolute;
-    top: 5px;
-    left: 6px;
     width: 5px;
     height: 5px;
     border-right: 2px solid #fff;
     border-bottom: 2px solid #fff;
     transform: rotate(45deg);
+    margin-top: -2px; /* Ajuste milimétrico de centro */
 }
 
+/* Quando expandido, gira a seta */
 .season-section.active .arrow-icon {
     transform: rotate(180deg);
 }
 
+/* LISTA DE EPISÓDIOS COM TRANSIÇÃO ULTRA FLUIDA */
 .episodes-list {
-    max-height: 0;
+    height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease-out;
+    transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
     gap: 24px;
-}
-
-.season-section.active .episodes-list {
-    max-height: 4000px;
-    padding-top: 16px;
-    padding-bottom: 24px;
 }
 
 /* --- CARD DO EPISÓDIO --- */
@@ -308,6 +213,37 @@ body {
     color: #999;
 }
 
+/* --- PLAYER LOCALIZADO NO EPISÓDIO --- */
+.local-player-wrapper {
+    width: 100%;
+    margin-top: 10px;
+    display: none;
+}
+
+.video-box {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.video-box iframe {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    border: none;
+}
+
+.close-player {
+    text-align: right;
+    padding-bottom: 8px;
+    font-size: 13px;
+    color: #e50914;
+    font-weight: 600;
+    cursor: pointer;
+}
+
 @media(max-width: 480px) {
     .thumb-container {
         width: 130px;
@@ -323,7 +259,6 @@ body {
 
 <section class="series-details">
     <h1 class="series-title">Origem</h1>
-    <div class="badge-new">Novo episódio às quintas</div>
     
     <div class="meta-row">
         <span class="age-rating">16</span>
@@ -337,25 +272,8 @@ body {
         Os residentes de uma misteriosa cidade que aprisiona todos que a adentram tentam escapar e precisam sobreviver às ameaças da floresta... <strong style="color:#fff;">mais</strong>
     </p>
 
-    <div class="main-actions">
-        <button class="btn-assista" onclick="scrollToEpisodes()">▶ Assista</button>
-        <button class="btn-lista">＋ Minha lista</button>
-    </div>
-
-    <div class="nav-tabs">
-        <div class="tab-item active">Episódios</div>
-        <div class="tab-item">Trailers e mais</div>
-        <div class="tab-item">Similares</div>
-    </div>
+    <div class="nav-tabs-clean">Episódios</div>
 </section>
-
-<!-- ÁREA DO PLAYER -->
-<div class="main-player-wrapper" id="playerArea">
-    <div class="close-player" onclick="closePlayer()">✕ Fechar Player</div>
-    <div class="video-box">
-        <iframe id="videoIframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
-    </div>
-</div>
 
 <main class="content-container" id="episodesBlock">
 
@@ -368,7 +286,7 @@ body {
             
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>1. A Longa Jornada Noite Adentro</h3></div>
                 </div>
                 <p class="episode-text">A viagem da família Matthews acaba mal quando saem da rota e acabam em uma cidade interiorana na qual são aprisionados.</p>
@@ -376,7 +294,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>2. Como as Coisas Estão Agora</h3></div>
                 </div>
                 <p class="episode-text">Jim, o xerife Boyd e a médica cuidam dos ferimentos de Ethan, enquanto torcem para que o talismã os proteja.</p>
@@ -384,7 +302,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>3. O Dia da Escolha</h3></div>
                 </div>
                 <p class="episode-text">A família tem que escolher se vai se juntar ao povo da cidade ou às pessoas da Casa Colonial.</p>
@@ -392,7 +310,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>4. Uma Pedra e uma Estrada Distante</h3></div>
                 </div>
                 <p class="episode-text">Julie encontra conforto nos novos amigos. Jim e Tabitha lidam com a dolorosa perda de forma diferente.</p>
@@ -400,7 +318,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>5. Silhuetas</h3></div>
                 </div>
                 <p class="episode-text">Jim planeja construir uma torre de rádio. Sara recebe novas ordens terríveis vindas das vozes.</p>
@@ -408,7 +326,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>6. Livro 74</h3></div>
                 </div>
                 <p class="episode-text">Boyd e Sara fazem um pacto assustador. Fatima mostra para Ellis uma forma secreta de esperança.</p>
@@ -416,7 +334,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>7. Todo Bom Plano</h3></div>
                 </div>
                 <p class="episode-text">O plano de construir a torre avança com a ajuda de todos, mas as tensões na cidade continuam altas.</p>
@@ -424,15 +342,15 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>8. Quebrados</h3></div>
                 </div>
-                <p class="episode-text">Uma tragédia abala profundamente a Casa Colonial, mudando o destino de vários sobreviventes.</p>
+                <p class="episode-text">Uma tragedy abala profundamente a Casa Colonial, mudando o destino de vários sobreviventes.</p>
             </div>
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>9. Entrando na Floresta</h3></div>
                 </div>
                 <p class="episode-text">Boyd decide se arriscar nos mistérios mais profundos da floresta para tentar encontrar uma saída definitiva.</p>
@@ -440,7 +358,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>10. Onde Nós Vamos</h3></div>
                 </div>
                 <p class="episode-text">A torre de rádio capta um sinal perturbador, e Tabitha faz uma descoberta chocante debaixo da casa.</p>
@@ -458,7 +376,7 @@ body {
             
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>1. Estranhos em Terra Estranha</h3></div>
                 </div>
                 <p class="episode-text">Um ônibus carregado de novas pessoas chega na cidade ao anoitecer, criando o caos absoluto.</p>
@@ -466,7 +384,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>2. A Bondade de Estranhos</h3></div>
                 </div>
                 <p class="episode-text">Os passageiros do ônibus enfrentam o horror da primeira noite. Donna tenta manter o controle.</p>
@@ -474,7 +392,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>3. Amarra</h3></div>
                 </div>
                 <p class="episode-text">Boyd retorna da floresta trazendo uma nova e estranha condição médica que o assusta.</p>
@@ -482,7 +400,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>4. Esse Caminho Difícil</h3></div>
                 </div>
                 <p class="episode-text">A verdade sobre a floresta começa a pesar sobre os ombros de Kenny, enquanto ele lida com perdas.</p>
@@ -490,7 +408,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>5. Canção de Embalar</h3></div>
                 </div>
                 <p class="episode-text">Sara retorna à cidade, gerando fúria e divisão imediata entre os moradores sobreviventes.</p>
@@ -498,15 +416,15 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>6. Prontos ou Não</h3></div>
                 </div>
-                <p class="episode-text">Uma nova ameaça surge durante o dia, quebrando a única regra de segurança que a cidade tinha.</p>
+                <p class="episode-text">Uma nova threat surge durante o dia, quebrando a única regra de segurança que a cidade tinha.</p>
             </div>
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>7. A Barriga da Fera</h3></div>
                 </div>
                 <p class="episode-text">Boyd e Kristi tentam uma autópsia arriscada para descobrir se os monstros têm alguma fraqueza.</p>
@@ -514,7 +432,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>8. Floresta por Árvores</h3></div>
                 </div>
                 <p class="episode-text">Jim e Randall formam uma aliança perigosa baseada em teorias conspiratórias sobre o lugar.</p>
@@ -522,7 +440,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>9. Um Canto de Três Sons</h3></div>
                 </div>
                 <p class="episode-text">Uma misteriosa maldição do sono começa a atacar os moradores, trazendo pesadelos mortais.</p>
@@ -530,7 +448,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>10. Era Uma Vez...</h3></div>
                 </div>
                 <p class="episode-text">Boyd tenta quebrar a maldição na torre de pedra. Tabitha segue as pistas e chega até o farol.</p>
@@ -548,7 +466,7 @@ body {
             
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>1. Estilhaços</h3></div>
                 </div>
                 <p class="episode-text">A escassez de comida aperta. Tabitha acorda em uma realidade completamente nova e desconhecida.</p>
@@ -556,7 +474,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>2. Quando Nós Partirmos</h3></div>
                 </div>
                 <p class="episode-text">Boyd lida com as consequências devastadoras da noite anterior enquanto tenta manter a ordem.</p>
@@ -564,7 +482,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>3. Retorno</h3></div>
                 </div>
                 <p class="episode-text">Kenny lidera uma busca desesperada por suprimentos nas profundezas intocadas da floresta.</p>
@@ -572,7 +490,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>4. Passagens</h3></div>
                 </div>
                 <p class="episode-text">Tabitha procura respostas no mundo exterior enquanto tenta achar um caminho de volta para sua família.</p>
@@ -580,7 +498,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>5. Luz do Dia</h3></div>
                 </div>
                 <p class="episode-text">Victor confronta memórias dolorosas do seu passado para ajudar a decifrar novos mistérios.</p>
@@ -588,7 +506,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>6. Tecido</h3></div>
                 </div>
                 <p class="episode-text">Fátima passa por uma crise médica assustadora ligada à sua misteriosa e tensa gravidez.</p>
@@ -596,7 +514,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>7. Essas Fragilidades</h3></div>
                 </div>
                 <p class="episode-text">Uma nova descoberta nas cabanas antigas muda a percepção do grupo sobre a história da cidade.</p>
@@ -604,7 +522,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>8. Limiares</h3></div>
                 </div>
                 <p class="episode-text">As tensões fervem na Casa Colonial quando os suprimentos chegam a um nível crítico.</p>
@@ -612,7 +530,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>9. Através do Espelho</h3></div>
                 </div>
                 <p class="episode-text">Boyd faz um teste desesperado com um novo método para combater as entidades da floresta.</p>
@@ -620,7 +538,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>10. Revelação</h3></div>
                 </div>
                 <p class="episode-text">O inverno se aproxima de forma abrupta, e uma mudança drástica altera as regras de Fromville para sempre.</p>
@@ -629,8 +547,8 @@ body {
         </div>
     </div>
 
-    <!-- 4ª TEMPORADA -->
-    <div class="season-section active">
+    <!-- 4ª TEMPORADA (Inicia Aberta) -->
+    <div class="season-section">
         <button class="season-trigger" onclick="toggleSeason(this)">
             4ª Temporada <div class="arrow-icon"></div> <span>9 episódios</span>
         </button>
@@ -638,7 +556,7 @@ body {
             
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>1. O Começo do Fim</h3></div>
                 </div>
                 <p class="episode-text">O inverno rigoroso traz novas dificuldades e os monstros mudam suas táticas de caça.</p>
@@ -646,7 +564,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>2. Eco das Vozes</h3></div>
                 </div>
                 <p class="episode-text">Novos segredos enterrados sob a igreja antiga vêm à tona, assustando os moradores.</p>
@@ -654,7 +572,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>3. Sombras na Neve</h3></div>
                 </div>
                 <p class="episode-text">A nevasca isola os sobreviventes e revela caminhos que antes não existiam.</p>
@@ -662,7 +580,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>4. O Preço da Verdade</h3></div>
                 </div>
                 <p class="episode-text">Jim toma uma decisão arriscada para proteger Julie de uma nova ameaça psicológica.</p>
@@ -670,7 +588,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>5. Cicatrizes Livres</h3></div>
                 </div>
                 <p class="episode-text">Tabitha tenta unir as pistas do farol com os eventos do presente na cidade.</p>
@@ -678,7 +596,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>6. Labirinto de Ilusões</h3></div>
                 </div>
                 <p class="episode-text">Os moradores começam a ver miragens perigosas pela cidade trazidas pela neblina.</p>
@@ -686,7 +604,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>7. Último Alento</h3></div>
                 </div>
                 <p class="episode-text">Boyd precisa fazer uma aliança desconfortável para salvar a comunidade da fome.</p>
@@ -694,18 +612,18 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playEpisode('URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>8. Fronteiras do Medo</h3></div>
                 </div>
                 <p class="episode-text">Uma nova estrutura misteriosa surge na floresta, atraindo a atenção de Victor.</p>
             </div>
 
-            <!-- EPISÓDIO 9 CONFIGURADO EXATAMENTE COMO PEDIDO -->
+            <!-- EPISÓDIO 9 CONFIGURADO -->
             <div class="episode-row">
                 <div class="episode-main">
                     <div class="thumb-container" 
                          style="background-image: url('https://cdn.mixdeseries.com.br/wp-content/uploads/2026/06/origem-4-temporada-episodio-9-explicado.webp');"
-                         onclick="playEpisode('https://drive.google.com/file/d/1l_NxTemZ4rTCr56-JrlKft9RpgFAvgC3/preview')">
+                         onclick="playLocalEpisode(this, 'https://drive.google.com/file/d/1l_NxTemZ4rTCr56-JrlKft9RpgFAvgC3/preview')">
                         <div class="thumb-play"></div>
                     </div>
                     <div class="episode-info">
@@ -722,36 +640,100 @@ body {
 
 </main>
 
+<!-- PLAYER DINÂMICO QUE SE MOVE AUTOMATICAMENTE PELO CÓDIGO -->
+<div class="local-player-wrapper" id="globalPlayer">
+    <div class="close-player" onclick="closeLocalPlayer()">✕ Fechar Vídeo</div>
+    <div class="video-box">
+        <iframe id="localIframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+</div>
+
 <script>
+    // Inicializa a 4ª Temporada aberta de forma limpa ao carregar a página
+    window.addEventListener('DOMContentLoaded', () => {
+        const fourthSeason = document.querySelectorAll('.season-section')[3];
+        if(fourthSeason) {
+            const list = fourthSeason.querySelector('.episodes-list');
+            fourthSeason.classList.add('active');
+            list.style.height = list.scrollHeight + "px";
+        }
+    });
+
+    // Controla a abertura e fechamento de forma fluida (Sanfona)
     function toggleSeason(button) {
-        const section = button.parentElement;
-        section.classList.toggle('active');
+        const currentSection = button.parentElement;
+        const currentList = currentSection.querySelector('.episodes-list');
+        const allSections = document.querySelectorAll('.season-section');
+
+        // Se clicar em uma que já está aberta, apenas fecha
+        if (currentSection.classList.contains('active')) {
+            currentList.style.height = "0px";
+            currentSection.classList.remove('active');
+            closeLocalPlayer(); // Fecha o vídeo se fechar a temporada
+            return;
+        }
+
+        // Fecha todas as outras antes de abrir a nova
+        allSections.forEach(section => {
+            if(section !== currentSection && section.classList.contains('active')) {
+                section.querySelector('.episodes-list').style.height = "0px";
+                section.classList.remove('active');
+            }
+        });
+
+        // Abre a selecionada calculando o tamanho exato de forma fluida
+        currentSection.classList.add('active');
+        currentList.style.height = currentList.scrollHeight + "px";
+        
+        // Se houver um vídeo aberto de outra temporada, limpa ele
+        closeLocalPlayer();
     }
 
-    function playEpisode(videoUrl) {
-        // Ignora cliques em episódios que ainda estão sem link configurado
+    // Inicia o player EXATAMENTE EMBAIXO do episódio clicado
+    function playLocalEpisode(thumbElement, videoUrl) {
         if (videoUrl === 'URL_DO_VIDEO' || videoUrl === '') {
             alert('Este episódio ainda não possui link de vídeo configurado.');
             return;
         }
+
+        const player = document.getElementById('globalPlayer');
+        const iframe = document.getElementById('localIframe');
+        const episodeRow = thumbElement.closest('.episode-row');
+        const currentList = thumbElement.closest('.episodes-list');
+
+        // Para evitar bugs na transição da sanfona, removemos temporariamente a trava de altura
+        currentList.style.height = 'auto';
+
+        // Move o bloco do player para dentro do card do episódio atual
+        episodeRow.appendChild(player);
         
-        const playerArea = document.getElementById('playerArea');
-        const iframe = document.getElementById('videoIframe');
-        
+        // Define o link e exibe o player nativamente ali
         iframe.src = videoUrl + (videoUrl.includes('?') ? '&' : '?') + 'autoplay=1';
-        playerArea.style.display = 'block';
-        playerArea.scrollIntoView({ behavior: 'smooth' });
+        player.style.display = 'block';
+
+        // Reajusta a altura da lista pai para incluir o novo player de forma fluida
+        currentList.style.height = currentList.scrollHeight + "px";
+
+        // Centraliza a visão do usuário levemente no player do episódio
+        player.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    function closePlayer() {
-        const playerArea = document.getElementById('playerArea');
-        const iframe = document.getElementById('videoIframe');
-        iframe.src = "";
-        playerArea.style.display = 'none';
-    }
-
-    function scrollToEpisodes() {
-        document.getElementById('episodesBlock').scrollIntoView({ behavior: 'smooth' });
+    // Fecha o vídeo limpando o espaço ocupado no meio dos episódios
+    function closeLocalPlayer() {
+        const player = document.getElementById('globalPlayer');
+        const iframe = document.getElementById('localIframe');
+        
+        if(player.style.display === 'block') {
+            iframe.src = "";
+            player.style.display = 'none';
+            
+            // Reajusta a altura da aba pai caso ela ainda esteja aberta
+            const currentList = player.closest('.episodes-list');
+            if(currentList) {
+                currentList.style.height = 'auto';
+                currentList.style.height = currentList.scrollHeight + "px";
+            }
+        }
     }
 </script>
 
