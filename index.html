@@ -21,9 +21,11 @@ body {
     padding-bottom: 60px;
 }
 
-/* --- TOPO DA PÁGINA --- */
+/* --- TOPO DA PÁGINA (CORRIGIDO PARA DESKTOP) --- */
 .hero {
-    height: 35vh;
+    width: 100%;
+    max-height: 70vh;
+    aspect-ratio: 16 / 9;
     background: url('https://api.metro1.com.br/filmes/164,serie-origem-transforma-uma-estrada-em-porta-de-entrada-para-um-suspense-sobre-a-sobrevivencia-e-o-sobrenatural-3.jpg') center top/cover;
     position: relative;
 }
@@ -32,19 +34,26 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(20,20,20,0.1) 0%, rgba(20,20,20,0.6) 50%, rgba(20,20,20,1) 100%);
+    background: linear-gradient(180deg, rgba(20,20,20,0.1) 0%, rgba(20,20,20,0.6) 60%, rgba(20,20,20,1) 100%);
 }
 
 .series-details {
     padding: 0 20px 10px;
-    max-width: 800px;
-    margin: -40px auto 0;
+    max-width: 850px;
+    margin: -80px auto 0;
     position: relative;
     z-index: 5;
 }
 
+/* Ajuste de margem caso a tela seja muito grande */
+@media(min-width: 1024px) {
+    .series-details {
+        margin: -150px auto 0;
+    }
+}
+
 .series-title {
-    font-size: 32px;
+    font-size: 36px;
     font-weight: 700;
     margin-bottom: 12px;
 }
@@ -69,12 +78,11 @@ body {
 
 .synopsis {
     font-size: 15px;
-    line-height: 1.4;
+    line-height: 1.5;
     color: #cccccc;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
-/* Aba simples apenas para demarcar os episódios */
 .nav-tabs-clean {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     margin-bottom: 24px;
@@ -86,7 +94,7 @@ body {
 
 /* --- SELETOR DE TEMPORADAS --- */
 .content-container {
-    max-width: 800px;
+    max-width: 850px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -116,7 +124,7 @@ body {
     font-weight: 400;
 }
 
-/* ÍCONE DA SETA TOTALMENTE CENTRALIZADO */
+/* SETA CENTRALIZADA */
 .arrow-icon {
     width: 22px;
     height: 22px;
@@ -135,15 +143,14 @@ body {
     border-right: 2px solid #fff;
     border-bottom: 2px solid #fff;
     transform: rotate(45deg);
-    margin-top: -2px; /* Ajuste milimétrico de centro */
+    margin-top: -2px;
 }
 
-/* Quando expandido, gira a seta */
 .season-section.active .arrow-icon {
     transform: rotate(180deg);
 }
 
-/* LISTA DE EPISÓDIOS COM TRANSIÇÃO ULTRA FLUIDA */
+/* LISTA COM ANIMAÇÃO FLUIDA */
 .episodes-list {
     height: 0;
     overflow: hidden;
@@ -153,13 +160,13 @@ body {
     gap: 24px;
 }
 
-/* --- CARD DO EPISÓDIO --- */
+/* --- CARD DO EPISÓDIO SEMPRE HORIZONTAL (CORRIGIDO) --- */
 .episode-row {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.03);
-    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    padding-bottom: 20px;
 }
 
 .episode-main {
@@ -168,16 +175,25 @@ body {
     align-items: center;
 }
 
+/* Força o tamanho horizontal correto independente do dispositivo */
 .thumb-container {
     position: relative;
     width: 150px;
     min-width: 150px;
-    padding-top: 22%;
+    height: 85px;
     background-size: cover;
     background-position: center;
     background-color: #222;
     border-radius: 6px;
     cursor: pointer;
+}
+
+@media(min-width: 600px) {
+    .thumb-container {
+        width: 180px;
+        min-width: 180px;
+        height: 101px;
+    }
 }
 
 .thumb-play {
@@ -201,7 +217,7 @@ body {
 }
 
 .episode-info h3 {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
     line-height: 1.3;
     color: #ffffff;
@@ -209,14 +225,14 @@ body {
 
 .episode-text {
     font-size: 14px;
-    line-height: 1.4;
+    line-height: 1.5;
     color: #999;
 }
 
-/* --- PLAYER LOCALIZADO NO EPISÓDIO --- */
+/* --- PLAYER DINÂMICO LOCALIZADO --- */
 .local-player-wrapper {
     width: 100%;
-    margin-top: 10px;
+    margin-top: 12px;
     display: none;
 }
 
@@ -242,13 +258,6 @@ body {
     color: #e50914;
     font-weight: 600;
     cursor: pointer;
-}
-
-@media(max-width: 480px) {
-    .thumb-container {
-        width: 130px;
-        min-width: 130px;
-    }
 }
 </style>
 </head>
@@ -286,7 +295,7 @@ body {
             
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('https://s04.video.glbimg.com/x216/11304251.jpg');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>1. A Longa Jornada Noite Adentro</h3></div>
                 </div>
                 <p class="episode-text">A viagem da família Matthews acaba mal quando saem da rota e acabam em uma cidade interiorana na qual são aprisionados.</p>
@@ -294,7 +303,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('https://s03.video.glbimg.com/x216/11304546.jpg');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>2. Como as Coisas Estão Agora</h3></div>
                 </div>
                 <p class="episode-text">Jim, o xerife Boyd e a médica cuidam dos ferimentos de Ethan, enquanto torcem para que o talismã os proteja.</p>
@@ -302,7 +311,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('https://s04.video.glbimg.com/x216/11304519.jpg');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>3. O Dia da Escolha</h3></div>
                 </div>
                 <p class="episode-text">A família tem que escolher se vai se juntar ao povo da cidade ou às pessoas da Casa Colonial.</p>
@@ -310,7 +319,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('https://s03.video.glbimg.com/x216/11304378.jpg');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>4. Uma Pedra e uma Estrada Distante</h3></div>
                 </div>
                 <p class="episode-text">Julie encontra conforto nos novos amigos. Jim e Tabitha lidam com a dolorosa perda de forma diferente.</p>
@@ -318,7 +327,7 @@ body {
 
             <div class="episode-row">
                 <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
+                    <div class="thumb-container" style="background-image: url('https://s01.video.glbimg.com/x216/11304520.jpg');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>5. Silhuetas</h3></div>
                 </div>
                 <p class="episode-text">Jim planeja construir uma torre de rádio. Sara recebe novas ordens terríveis vindas das vozes.</p>
@@ -345,7 +354,7 @@ body {
                     <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>8. Quebrados</h3></div>
                 </div>
-                <p class="episode-text">Uma tragedy abala profundamente a Casa Colonial, mudando o destino de vários sobreviventes.</p>
+                <p class="episode-text">Uma tragédia abala profundamente a Casa Colonial, mudando o destino de vários sobreviventes.</p>
             </div>
 
             <div class="episode-row">
@@ -419,7 +428,7 @@ body {
                     <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
                     <div class="episode-info"><h3>6. Prontos ou Não</h3></div>
                 </div>
-                <p class="episode-text">Uma nova threat surge durante o dia, quebrando a única regra de segurança que a cidade tinha.</p>
+                <p class="episode-text">Uma nova ameaça surge durante o dia, quebrando a única regra de segurança que a cidade tinha.</p>
             </div>
 
             <div class="episode-row">
@@ -618,7 +627,7 @@ body {
                 <p class="episode-text">Uma nova estrutura misteriosa surge na floresta, atraindo a atenção de Victor.</p>
             </div>
 
-            <!-- EPISÓDIO 9 CONFIGURADO -->
+            <!-- EPISÓDIO 9 -->
             <div class="episode-row">
                 <div class="episode-main">
                     <div class="thumb-container" 
@@ -640,7 +649,7 @@ body {
 
 </main>
 
-<!-- PLAYER DINÂMICO QUE SE MOVE AUTOMATICAMENTE PELO CÓDIGO -->
+<!-- PLAYER DINÂMICO -->
 <div class="local-player-wrapper" id="globalPlayer">
     <div class="close-player" onclick="closeLocalPlayer()">✕ Fechar Vídeo</div>
     <div class="video-box">
@@ -649,7 +658,7 @@ body {
 </div>
 
 <script>
-    // Inicializa a 4ª Temporada aberta de forma limpa ao carregar a página
+    // Inicia a 4ª Temporada aberta por padrão de forma limpa
     window.addEventListener('DOMContentLoaded', () => {
         const fourthSeason = document.querySelectorAll('.season-section')[3];
         if(fourthSeason) {
@@ -659,21 +668,19 @@ body {
         }
     });
 
-    // Controla a abertura e fechamento de forma fluida (Sanfona)
+    // Controla o efeito sanfona (Abre uma e fecha as outras)
     function toggleSeason(button) {
         const currentSection = button.parentElement;
         const currentList = currentSection.querySelector('.episodes-list');
         const allSections = document.querySelectorAll('.season-section');
 
-        // Se clicar em uma que já está aberta, apenas fecha
         if (currentSection.classList.contains('active')) {
             currentList.style.height = "0px";
             currentSection.classList.remove('active');
-            closeLocalPlayer(); // Fecha o vídeo se fechar a temporada
+            closeLocalPlayer();
             return;
         }
 
-        // Fecha todas as outras antes de abrir a nova
         allSections.forEach(section => {
             if(section !== currentSection && section.classList.contains('active')) {
                 section.querySelector('.episodes-list').style.height = "0px";
@@ -681,15 +688,12 @@ body {
             }
         });
 
-        // Abre a selecionada calculando o tamanho exato de forma fluida
         currentSection.classList.add('active');
         currentList.style.height = currentList.scrollHeight + "px";
-        
-        // Se houver um vídeo aberto de outra temporada, limpa ele
         closeLocalPlayer();
     }
 
-    // Inicia o player EXATAMENTE EMBAIXO do episódio clicado
+    // Inicia o Player logo abaixo do episódio selecionado
     function playLocalEpisode(thumbElement, videoUrl) {
         if (videoUrl === 'URL_DO_VIDEO' || videoUrl === '') {
             alert('Este episódio ainda não possui link de vídeo configurado.');
@@ -701,24 +705,17 @@ body {
         const episodeRow = thumbElement.closest('.episode-row');
         const currentList = thumbElement.closest('.episodes-list');
 
-        // Para evitar bugs na transição da sanfona, removemos temporariamente a trava de altura
         currentList.style.height = 'auto';
-
-        // Move o bloco do player para dentro do card do episódio atual
         episodeRow.appendChild(player);
         
-        // Define o link e exibe o player nativamente ali
         iframe.src = videoUrl + (videoUrl.includes('?') ? '&' : '?') + 'autoplay=1';
         player.style.display = 'block';
 
-        // Reajusta a altura da lista pai para incluir o novo player de forma fluida
         currentList.style.height = currentList.scrollHeight + "px";
-
-        // Centraliza a visão do usuário levemente no player do episódio
         player.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    // Fecha o vídeo limpando o espaço ocupado no meio dos episódios
+    // Fecha o Player
     function closeLocalPlayer() {
         const player = document.getElementById('globalPlayer');
         const iframe = document.getElementById('localIframe');
@@ -727,7 +724,6 @@ body {
             iframe.src = "";
             player.style.display = 'none';
             
-            // Reajusta a altura da aba pai caso ela ainda esteja aberta
             const currentList = player.closest('.episodes-list');
             if(currentList) {
                 currentList.style.height = 'auto';
