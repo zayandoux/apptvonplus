@@ -158,7 +158,7 @@ body {
     padding-top: 10px;
 }
 
-/* --- CARD IGUAL AO PRINT --- */
+/* --- CARD --- */
 .episode-row {
     background: #1f1f1f;
     border-radius: 18px;
@@ -173,13 +173,13 @@ body {
     align-items: center;
 }
 
-/* AJUSTADO: Zoom leve na imagem para remover faixas pretas */
+/* MODIFICADO: background-size alterado para cover para dar zoom e eliminar faixas pretas */
 .thumb-container {
     position: relative;
     width: 140px;
     min-width: 140px;
     height: 80px;
-    background-size: 105% auto; /* Dá o zoom exato para eliminar as bordas horizontais */
+    background-size: cover; 
     background-position: center center;
     background-repeat: no-repeat;
     background-color: #2a2a2a;
@@ -400,7 +400,6 @@ body {
         </div>
     </div>
 
-    <!-- O restante das temporadas segue com a mesma estrutura -->
     <!-- 2ª TEMPORADA -->
     <div class="season-section">
         <button class="season-trigger" onclick="toggleSeason(this)">
@@ -736,14 +735,8 @@ body {
 </div>
 
 <script>
-    window.addEventListener('DOMContentLoaded', () => {
-        const fourthSeason = document.querySelectorAll('.season-section')[3];
-        if(fourthSeason) {
-            const list = fourthSeason.querySelector('.episodes-list');
-            fourthSeason.classList.add('active');
-            list.style.height = list.scrollHeight + "px";
-        }
-    });
+    // AJUSTADO: Removido o bloco DOMContentLoaded que forçava a última temporada a iniciar aberta.
+    // Agora todas iniciam fechadas por padrão.
 
     function toggleSeason(button) {
         const currentSection = button.parentElement;
@@ -809,5 +802,3 @@ body {
 
 </body>
 </html>
-
-```
