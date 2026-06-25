@@ -1,14 +1,433 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Download App</title>
-</head>
-<body>
-  <h2>Baixar aplicativo</h2>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <a href="unirevenda2.6.apk" download>
-    Clique aqui para baixar o app
-  </a>
+<title>FROM — Catálogo Apple TV</title>
+
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    background: #000000;
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    padding-bottom: 80px;
+}
+
+/* Header com a imagem clássica */
+.hero {
+    height: 35vh;
+    background: url('https://api.metro1.com.br/filmes/164,serie-origem-transforma-uma-estrada-em-porta-de-entrada-para-um-suspense-sobre-a-sobrevivencia-e-o-sobrenatural-3.jpg') center center/cover;
+    position: relative;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,1) 100%);
+}
+
+/* Container Principal */
+.apple-container {
+    max-width: 960px;
+    margin: -50px auto 0; /* Sobe um pouco o player para cruzar com o fundo */
+    padding: 0 24px;
+    position: relative;
+    z-index: 10;
+}
+
+/* PLAYER PRINCIPAL GRANDE */
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #151516;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Capa sobre o player principal */
+.custom-poster {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #151516;
+    cursor: pointer;
+    z-index: 12;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.4s ease;
+}
+
+.main-play-button {
+    width: 75px;
+    height: 75px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.main-play-button::after {
+    content: "";
+    border-style: solid;
+    border-width: 12px 0 12px 20px;
+    border-color: transparent transparent transparent #ffffff;
+    margin-left: 4px;
+}
+
+.custom-poster.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Informações do vídeo atual */
+.info-section {
+    margin: 24px 0 40px;
+}
+
+.info-section h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.info-section p {
+    font-size: 15px;
+    color: #86868b;
+}
+
+/* SEÇÃO DE TEMPORADAS (ESTILO ACORDEÃO) */
+.seasons-section {
+    margin-top: 40px;
+}
+
+.season-tab {
+    margin-bottom: 12px;
+    border-radius: 10px;
+    background: #151516;
+    overflow: hidden;
+}
+
+/* Botão da Temporada */
+.season-button {
+    width: 100%;
+    padding: 18px 24px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s ease;
+}
+
+.season-button:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.season-button::after {
+    content: '+';
+    font-size: 20px;
+    color: #86868b;
+}
+
+.season-tab.active .season-button::after {
+    content: '−';
+}
+
+/* Lista de Episódios Oculta por padrão */
+.episodes-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.season-tab.active .episodes-list {
+    max-height: 2000px; /* Permite expandir livremente */
+    padding: 10px 24px 24px;
+}
+
+/* Card do Episódio */
+.episode-card {
+    background: #202022;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.ep-cover-box {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    background: #2a2a2c center center/cover;
+}
+
+/* Play sutil em cima do mini card */
+.ep-play-btn {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s, background 0.2s;
+}
+
+.ep-play-btn:hover {
+    opacity: 1;
+    background: rgba(0,0,0,0.5);
+}
+
+.ep-play-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ep-play-icon::after {
+    content: "";
+    border-style: solid;
+    border-width: 7px 0 7px 12px;
+    border-color: transparent transparent transparent #000;
+    margin-left: 2px;
+}
+
+.ep-details {
+    padding: 14px;
+}
+
+.ep-details h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ep-details p {
+    font-size: 13px;
+    color: #86868b;
+}
+
+footer {
+    text-align: center;
+    margin-top: 80px;
+    color: #555;
+    font-size: 12px;
+}
+
+/* Responsivo Mobile */
+@media(max-width: 768px){
+    .apple-container {
+        padding: 0 16px;
+        margin-top: -30px;
+    }
+    .episodes-list {
+        grid-template-columns: 1fr; /* 1 coluna no celular */
+        gap: 16px;
+        padding: 0 16px;
+    }
+    .season-tab.active .episodes-list {
+        padding: 10px 16px 16px;
+    }
+    .info-section h1 {
+        font-size: 24px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<section class="hero"></section>
+
+<main class="apple-container">
+
+    <!-- PLAYER PRINCIPAL FIXO NO TOPO -->
+    <div class="video-wrapper" id="mainPlayerContainer">
+        
+        <!-- Capa dinâmica (Começa com o Ep 9 da Temp 4) -->
+        <div class="custom-poster" id="mainPoster" style="background-image: url('https://cdn.mixdeseries.com.br/wp-content/uploads/2026/06/origem-4-temporada-episodio-9-explicado.webp');">
+            <div class="main-play-button"></div>
+        </div>
+
+        <iframe
+            id="mainVideoPlayer"
+            src="https://drive.google.com/file/d/1l_NxTemZ4rTCr56-JrlKft9RpgFAvgC3/preview"
+            allow="autoplay; fullscreen"
+            allowfullscreen>
+        </iframe>
+
+    </div>
+
+    <!-- Título do vídeo que está ativo no momento -->
+    <section class="info-section">
+        <h1 id="currentTitle">A Calmaria que Vem Antes</h1>
+        <p id="currentMeta">Temporada 4 • Episódio 9</p>
+    </section>
+
+    <!-- CONTAINER DAS TEMPORADAS -->
+    <section class="seasons-section">
+
+        <!-- TEMPORADA 1 -->
+        <div class="season-tab">
+            <button class="season-button" onclick="toggleSeason(this)">1ª Temporada</button>
+            <div class="episodes-list">
+                <!-- Exemplo de Card de Episódio Sem Link Ainda -->
+                <div class="episode-card">
+                    <div class="ep-cover-box" style="background-image: url('INSIRA_A_FOTO_AQUI');">
+                        <div class="ep-play-btn" data-video="LINK_DO_VIDEO_AQUI" data-capa="INSIRA_A_FOTO_AQUI" data-titulo="Episódio 1" data-meta="Temporada 1 • Episódio 1" onclick="loadVideo(this)">
+                            <div class="ep-play-icon"></div>
+                        </div>
+                    </div>
+                    <div class="ep-details">
+                        <h3>Episódio 1</h3>
+                        <p>Título do Episódio 1</p>
+                    </div>
+                </div>
+                <!-- Você pode duplicar o bloco acima para adicionar os outros episódios -->
+            </div>
+        </div>
+
+        <!-- TEMPORADA 2 -->
+        <div class="season-tab">
+            <button class="season-button" onclick="toggleSeason(this)">2ª Temporada</button>
+            <div class="episodes-list">
+                <p style="color:#6e6e73; padding: 10px 0;">Nenhum episódio adicionado ainda.</p>
+            </div>
+        </div>
+
+        <!-- TEMPORADA 3 -->
+        <div class="season-tab">
+            <button class="season-button" onclick="toggleSeason(this)">3ª Temporada</button>
+            <div class="episodes-list">
+                <p style="color:#6e6e73; padding: 10px 0;">Nenhum episódio adicionado ainda.</p>
+            </div>
+        </div>
+
+        <!-- TEMPORADA 4 -->
+        <div class="season-tab active"> <!-- Já inicia aberta para destacar o Ep 9 -->
+            <button class="season-button" onclick="toggleSeason(this)">4ª Temporada</button>
+            <div class="episodes-list">
+                
+                <!-- EPISÓDIO 9 CONFIGURADO -->
+                <div class="episode-card">
+                    <div class="ep-cover-box" style="background-image: url('https://cdn.mixdeseries.com.br/wp-content/uploads/2026/06/origem-4-temporada-episodio-9-explicado.webp');">
+                        <div class="ep-play-btn" 
+                             data-video="https://drive.google.com/file/d/1l_NxTemZ4rTCr56-JrlKft9RpgFAvgC3/preview" 
+                             data-capa="https://cdn.mixdeseries.com.br/wp-content/uploads/2026/06/origem-4-temporada-episodio-9-explicado.webp" 
+                             data-titulo="A Calmaria que Vem Antes" 
+                             data-meta="Temporada 4 • Episódio 9" 
+                             onclick="loadVideo(this)">
+                            <div class="ep-play-icon"></div>
+                        </div>
+                    </div>
+                    <div class="ep-details">
+                        <h3>9. A Calmaria que Vem Antes</h3>
+                        <p>Temporada 4 • Episódio 9</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    FROM • Catálogo de Episódios Estilo Apple TV
+</footer>
+
+<script>
+    const poster = document.getElementById('mainPoster');
+    const player = document.getElementById('mainVideoPlayer');
+    const currentTitle = document.getElementById('currentTitle');
+    const currentMeta = document.getElementById('currentMeta');
+
+    // Controla o abrir/fechar das abas de temporadas
+    function toggleSeason(button) {
+        const tab = button.parentElement;
+        tab.classList.toggle('active');
+    }
+
+    // Função que é acionada ao dar play em qualquer episódio da lista
+    function loadVideo(element) {
+        const videoUrl = element.getAttribute('data-video');
+        const capaUrl = element.getAttribute('data-capa');
+        const titulo = element.getAttribute('data-titulo');
+        const meta = element.getAttribute('data-meta');
+
+        // Atualiza textos do player principal
+        currentTitle.innerText = titulo;
+        currentMeta.innerText = meta;
+
+        // Atualiza a foto de capa do player principal e a torna visível novamente
+        poster.style.backgroundImage = `url('${capaUrl}')`;
+        poster.classList.remove('hidden');
+
+        // Atualiza o link do player principal com autoplay pronto
+        player.src = videoUrl + (videoUrl.includes('?') ? '&' : '?') + 'autoplay=1';
+
+        // Rola a página suavemente de volta para o player principal no topo
+        document.getElementById('mainPlayerContainer').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Play inicial na capa grande do topo
+    poster.addEventListener('click', () => {
+        poster.classList.add('hidden');
+        let videoSrc = player.src;
+        if (!videoSrc.includes('autoplay=1')) {
+            player.src = videoSrc + (videoSrc.includes('?') ? '&' : '?') + 'autoplay=1';
+        }
+    });
+</script>
+
 </body>
 </html>
