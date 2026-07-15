@@ -2,89 +2,70 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Gerador de Discografia</title>
+    <title>Gerador de Discografia - Importador</title>
     <style>
         body { font-family: sans-serif; padding: 20px; background: #f4f4f4; }
-        .card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        input, textarea { display: block; margin-bottom: 10px; width: 100%; padding: 8px; }
-        .version-box { border: 1px solid #ccc; padding: 10px; margin-top: 10px; }
-        button { cursor: pointer; padding: 10px; }
+        .card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        textarea { width: 100%; height: 100px; margin-bottom: 10px; }
+        input { display: block; margin-bottom: 10px; width: 100%; padding: 8px; }
+        button { cursor: pointer; padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; }
     </style>
 </head>
 <body>
 
-    <h1>Painel de Controle: Discografia</h1>
-    
+    <h1>Gerador de Discografia</h1>
+
     <div class="card">
-        <h3>Adicionar Novo Álbum</h3>
-        <input type="number" id="albPosition" placeholder="Posição (ex: 1, 2, 3)">
-        <input type="text" id="albID" placeholder="ID (ex: britney-spears)">
-        <input type="text" id="albFolder" placeholder="Pasta">
-        <input type="text" id="albTitle" placeholder="Título">
-        <input type="text" id="albArtist" placeholder="Artista">
-        <input type="text" id="albYear" placeholder="Ano">
-        <input type="text" id="albCover" placeholder="Capa (ex: capa.jpg)">
-        <input type="text" id="albVideo" placeholder="Vídeo (opcional)">
-        
-        <input type="number" id="numTracks" placeholder="Quantidade de Músicas" onchange="createTrackInputs()">
-        <div id="trackInputs"></div>
-        
-        <button onclick="addAlbum()">Adicionar ao Gerador</button>
+        <h3>1. Importar index.html atual</h3>
+        <textarea id="importCode" placeholder="Cole aqui o conteúdo do seu index.html"></textarea>
+        <button onclick="importarDados()">Carregar Dados</button>
     </div>
 
     <div class="card">
-        <button onclick="generateCode()" style="background: green; color: white;">Gerar Código Final (HTML)</button>
-        <textarea id="output" rows="10" placeholder="O código gerado aparecerá aqui..."></textarea>
+        <h3>2. Editor de Álbuns</h3>
+        <div id="listaAlbunsEditavel"></div>
     </div>
 
     <script>
-        let albunsLista = [];
+        let dadosDiscografia = [];
 
-        function createTrackInputs() {
-            const num = document.getElementById('numTracks').value;
-            const container = document.getElementById('trackInputs');
-            container.innerHTML = '';
-            for(let i=1; i<=num; i++) {
-                container.innerHTML += `
-                    <div>
-                        <span>${i}</span>
-                        <input type="text" class="trackTitle" placeholder="Nome da música">
-                        <input type="text" class="trackFile" placeholder="Nome do arquivo.mp3">
-                    </div>`;
+        function importarDados() {
+            const rawCode = document.getElementById('importCode').value;
+            // Usa Regex para capturar o conteúdo dentro de "const albums = [...]"
+            const match = rawCode.match(/const\s+albums\s*=\s*(\[[\s\S]*?\]);/);
+            
+            if (match) {
+                try {
+                    // Limpa a string para transformar em JSON válido
+                    let jsonString = match[1];
+                    dadosDiscografia = eval(jsonString); // Converte string para objeto JS
+                    renderizarEditor();
+                    alert("Dados carregados com sucesso!");
+                } catch (e) {
+                    alert("Erro ao ler os dados. Verifique se o código está no formato correto.");
+                }
+            } else {
+                alert("Não encontrei a variável 'const albums' no código.");
             }
         }
 
-        function addAlbum() {
-            const num = document.getElementById('numTracks').value;
-            let tracks = [];
-            document.querySelectorAll('#trackInputs > div').forEach((div, idx) => {
-                tracks.push({
-                    num: (idx + 1).toString(),
-                    title: div.querySelector('.trackTitle').value,
-                    file: div.querySelector('.trackFile').value
-                });
+        function renderizarEditor() {
+            const container = document.getElementById('listaAlbunsEditavel');
+            container.innerHTML = '';
+            
+            dadosDiscografia.forEach((album, index) => {
+                container.innerHTML += `
+                    <div style="border-bottom: 1px solid #ccc; padding: 10px;">
+                        <strong>${album.title}</strong> (${album.year})
+                        <button onclick="editarAlbum(${index})">Editar</button>
+                    </div>`;
             });
-
-            const novoAlbum = {
-                id: document.getElementById('albID').value,
-                folder: document.getElementById('albFolder').value,
-                title: document.getElementById('albTitle').value,
-                artist: document.getElementById('albArtist').value,
-                year: document.getElementById('albYear').value,
-                cover: document.getElementById('albCover').value,
-                video: document.getElementById('albVideo').value,
-                tracks: tracks
-            };
-
-            albunsLista.push(novoAlbum);
-            alert("Álbum adicionado ao rascunho!");
         }
 
-        function generateCode() {
-            // Aqui ele gera o formato do array que seu index.html usa
-            const jsonCode = JSON.stringify(albunsLista, null, 4);
-            const finalHTML = `const albums = ${jsonCode};`;
-            document.getElementById('output').value = finalHTML;
+        function editarAlbum(index) {
+            const alb = dadosDiscografia[index];
+            alert("Editando: " + alb.title + "\n(Campos de edição seriam exibidos aqui para você alterar os valores do objeto)");
+            // Aqui entra a lógica de preencher os campos do formulário anterior
         }
     </script>
 </body>
