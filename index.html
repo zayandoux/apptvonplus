@@ -1,804 +1,91 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Origem</title>
-
-<style>
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-}
-
-body {
-    background: #141414;
-    color: #ffffff;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    padding-bottom: 60px;
-}
-
-/* --- TOPO DA PÁGINA --- */
-.hero {
-    width: 100%;
-    max-height: 70vh;
-    aspect-ratio: 16 / 9;
-    background: url('https://api.metro1.com.br/filmes/164,serie-origem-transforma-uma-estrada-em-porta-de-entrada-para-um-suspense-sobre-a-sobrevivencia-e-o-sobrenatural-3.jpg') center top/cover;
-    position: relative;
-}
-
-.hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(20,20,20,0.1) 0%, rgba(20,20,20,0.6) 60%, rgba(20,20,20,1) 100%);
-}
-
-.series-details {
-    padding: 0 20px 10px;
-    max-width: 850px;
-    margin: -80px auto 0;
-    position: relative;
-    z-index: 5;
-}
-
-@media(min-width: 1024px) {
-    .series-details {
-        margin: -150px auto 0;
-    }
-}
-
-.series-title {
-    font-size: 36px;
-    font-weight: 700;
-    margin-bottom: 12px;
-}
-
-.meta-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 14px;
-    color: #999;
-    margin-bottom: 16px;
-}
-
-.age-rating {
-    background: #e50914;
-    color: #fff;
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 12px;
-}
-
-.synopsis {
-    font-size: 15px;
-    line-height: 1.5;
-    color: #cccccc;
-    margin-bottom: 20px;
-}
-
-.nav-tabs-clean {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 24px;
-    padding-bottom: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #ffffff;
-}
-
-/* --- SELETOR DE TEMPORADAS --- */
-.content-container {
-    max-width: 850px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.season-section {
-    margin-bottom: 16px;
-}
-
-.season-trigger {
-    background: none;
-    border: none;
-    color: #ffffff;
-    font-size: 18px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    padding: 10px 0;
-    width: 100%;
-    text-align: left;
-}
-
-.season-trigger span {
-    font-size: 14px;
-    color: #666;
-    font-weight: 400;
-}
-
-.arrow-icon {
-    width: 22px;
-    height: 22px;
-    border: 2px solid rgba(255,255,255,0.4);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease;
-}
-
-.arrow-icon::after {
-    content: "";
-    width: 5px;
-    height: 5px;
-    border-right: 2px solid #fff;
-    border-bottom: 2px solid #fff;
-    transform: rotate(45deg);
-    margin-top: -2px;
-}
-
-.season-section.active .arrow-icon {
-    transform: rotate(180deg);
-}
-
-.episodes-list {
-    height: 0;
-    overflow: hidden;
-    transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    padding-top: 10px;
-}
-
-/* --- CARD --- */
-.episode-row {
-    background: #1f1f1f;
-    border-radius: 18px;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-}
-
-.episode-main {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-}
-
-/* AJUSTADO: Zoom manual para cortar as bordas pretas que vêm gravadas nativamente nas imagens */
-.thumb-container {
-    position: relative;
-    width: 140px;
-    min-width: 140px;
-    height: 80px;
-    background-size: 115% auto; 
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-color: #2a2a2a;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-@media(min-width: 600px) {
-    .thumb-container {
-        width: 180px;
-        min-width: 180px;
-        height: 102px;
-    }
-}
-
-.thumb-play {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-}
-
-.thumb-play::after {
-    content: "";
-    border-style: solid;
-    border-width: 6px 0 6px 10px;
-    border-color: transparent transparent transparent #fff;
-    opacity: 0.8;
-}
-
-.episode-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.episode-number {
-    font-size: 13px;
-    color: #757575;
-    font-weight: 500;
-}
-
-.episode-title {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1.3;
-    color: #ffffff;
-}
-
-/* --- PLAYER DINÂMICO LOCALIZADO --- */
-.local-player-wrapper {
-    width: 100%;
-    margin-top: 14px;
-    display: none;
-}
-
-.video-box {
-    position: relative;
-    width: 100%;
-    padding-top: 56.25%;
-    background: #000;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.video-box iframe {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    border: none;
-}
-
-.close-player {
-    text-align: right;
-    padding-bottom: 8px;
-    font-size: 13px;
-    color: #ffffff;
-    font-weight: 600;
-    cursor: pointer;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>Gerador de Discografia</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f4f4f4; }
+        .card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        input, textarea { display: block; margin-bottom: 10px; width: 100%; padding: 8px; }
+        .version-box { border: 1px solid #ccc; padding: 10px; margin-top: 10px; }
+        button { cursor: pointer; padding: 10px; }
+    </style>
 </head>
-
 <body>
 
-<section class="hero"></section>
-
-<section class="series-details">
-    <h1 class="series-title">Origem</h1>
+    <h1>Painel de Controle: Discografia</h1>
     
-    <div class="meta-row">
-        <span class="age-rating">16</span>
-        <span>Série</span>
-        <span>Suspense</span>
-        <span>2022</span>
-        <span>4 Temporadas</span>
-    </div>
-
-    <p class="synopsis">
-        Os residentes de uma misteriosa cidade que aprisiona todos que a adentram tentam escapar e precisam sobreviver às ameaças da floresta... <strong style="color:#fff;">mais</strong>
-    </p>
-
-    <div class="nav-tabs-clean">Episódios</div>
-</section>
-
-<main class="content-container" id="episodesBlock">
-
-    <!-- 1ª TEMPORADA -->
-    <div class="season-section">
-        <button class="season-trigger" onclick="toggleSeason(this)">
-            1ª Temporada <div class="arrow-icon"></div> <span>10 episódios</span>
-        </button>
-        <div class="episodes-list">
-            
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('https://s04.video.glbimg.com/x216/11304251.jpg');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 1</span>
-                        <h3 class="episode-title">A Longa Jornada Noite Adentro</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('https://s03.video.glbimg.com/x216/11304546.jpg');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 2</span>
-                        <h3 class="episode-title">Como as Coisas Estão Agora</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('https://s04.video.glbimg.com/x216/11304519.jpg');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 3</span>
-                        <h3 class="episode-title">O Dia da Escolha</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('https://s03.video.glbimg.com/x216/11304378.jpg');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 4</span>
-                        <h3 class="episode-title">Uma Pedra e uma Estrada Distante</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('https://s01.video.glbimg.com/x216/11304520.jpg');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 5</span>
-                        <h3 class="episode-title">Silhuetas</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 6</span>
-                        <h3 class="episode-title">Livro 74</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 7</span>
-                        <h3 class="episode-title">Todo Bom Plano</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 8</span>
-                        <h3 class="episode-title">Quebrados</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 9</span>
-                        <h3 class="episode-title">Entrando na Floresta</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 10</span>
-                        <h3 class="episode-title">Onde Nós Vamos</h3>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- 2ª TEMPORADA -->
-    <div class="season-section">
-        <button class="season-trigger" onclick="toggleSeason(this)">
-            2ª Temporada <div class="arrow-icon"></div> <span>10 episódios</span>
-        </button>
-        <div class="episodes-list">
-            
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 1</span>
-                        <h3 class="episode-title">Estranhos em Terra Estranha</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 2</span>
-                        <h3 class="episode-title">A Bondade de Estranhos</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 3</span>
-                        <h3 class="episode-title">Amarra</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 4</span>
-                        <h3 class="episode-title">Esse Caminho Difícil</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 5</span>
-                        <h3 class="episode-title">Canção de Embalar</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 6</span>
-                        <h3 class="episode-title">Prontos ou Não</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 7</span>
-                        <h3 class="episode-title">A Barriga da Fera</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 8</span>
-                        <h3 class="episode-title">Floresta por Árvores</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 9</span>
-                        <h3 class="episode-title">Um Canto de Três Sounds</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 10</span>
-                        <h3 class="episode-title">Era Uma Vez...</h3>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- 3ª TEMPORADA -->
-    <div class="season-section">
-        <button class="season-trigger" onclick="toggleSeason(this)">
-            3ª Temporada <div class="arrow-icon"></div> <span>10 episódios</span>
-        </button>
-        <div class="episodes-list">
-            
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 1</span>
-                        <h3 class="episode-title">Estilhaços</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 2</span>
-                        <h3 class="episode-title">Quando Nós Partirmos</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 3</span>
-                        <h3 class="episode-title">Retorno</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 4</span>
-                        <h3 class="episode-title">Passagens</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 5</span>
-                        <h3 class="episode-title">Luz do Dia</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 6</span>
-                        <h3 class="episode-title">Tecido</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 7</span>
-                        <h3 class="episode-title">Essas Fragilidades</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 8</span>
-                        <h3 class="episode-title">Limiares</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 9</span>
-                        <h3 class="episode-title">Através do Espelho</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 10</span>
-                        <h3 class="episode-title">Revelação</h3>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- 4ª TEMPORADA -->
-    <div class="season-section">
-        <button class="season-trigger" onclick="toggleSeason(this)">
-            4ª Temporada <div class="arrow-icon"></div> <span>9 episódios</span>
-        </button>
-        <div class="episodes-list">
-            
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 1</span>
-                        <h3 class="episode-title">O Começo do Fim</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 2</span>
-                        <h3 class="episode-title">Eco das Vozes</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 3</span>
-                        <h3 class="episode-title">Sombras na Neve</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 4</span>
-                        <h3 class="episode-title">O Preço da Verdade</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 5</span>
-                        <h3 class="episode-title">Cicatrizes Livres</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 6</span>
-                        <h3 class="episode-title">Labirinto de Ilusões</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 7</span>
-                        <h3 class="episode-title">Último Alento</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" style="background-image: url('URL_DA_FOTO');" onclick="playLocalEpisode(this, 'URL_DO_VIDEO')"><div class="thumb-play"></div></div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 8</span>
-                        <h3 class="episode-title">Fronteiras do Medo</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="episode-row">
-                <div class="episode-main">
-                    <div class="thumb-container" 
-                         style="background-image: url('https://cdn.mixdeseries.com.br/wp-content/uploads/2026/06/origem-4-temporada-episodio-9-explicado.webp');"
-                         onclick="playLocalEpisode(this, 'https://drive.google.com/file/d/1l_NxTemZ4rTCr56-JrlKft9RpgFAvgC3/preview')">
-                        <div class="thumb-play"></div>
-                    </div>
-                    <div class="episode-info">
-                        <span class="episode-number">Episódio 9</span>
-                        <h3 class="episode-title">A Calmaria que Vem Antes</h3>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-</main>
-
-<!-- PLAYER DINÂMICO -->
-<div class="local-player-wrapper" id="globalPlayer">
-    <div class="close-player" onclick="closeLocalPlayer()">✕ Fechar Vídeo</div>
-    <div class="video-box">
-        <iframe id="localIframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
-    </div>
-</div>
-
-<script>
-    // Ajustado: O bloco que abria a temporada automaticamente foi totalmente removido.
-    // Todas as abas de temporadas começam ocultas.
-
-    function toggleSeason(button) {
-        const currentSection = button.parentElement;
-        const currentList = currentSection.querySelector('.episodes-list');
-        const allSections = document.querySelectorAll('.season-section');
-
-        if (currentSection.classList.contains('active')) {
-            currentList.style.height = "0px";
-            currentSection.classList.remove('active');
-            closeLocalPlayer();
-            return;
-        }
-
-        allSections.forEach(section => {
-            if(section !== currentSection && section.classList.contains('active')) {
-                section.querySelector('.episodes-list').style.height = "0px";
-                section.classList.remove('active');
-            }
-        });
-
-        currentSection.classList.add('active');
-        currentList.style.height = currentList.scrollHeight + "px";
-        closeLocalPlayer();
-    }
-
-    function playLocalEpisode(thumbElement, videoUrl) {
-        if (videoUrl === 'URL_DO_VIDEO' || videoUrl === '') {
-            alert('Este episódio ainda não possui link de vídeo configurado.');
-            return;
-        }
-
-        const player = document.getElementById('globalPlayer');
-        const iframe = document.getElementById('localIframe');
-        const episodeRow = thumbElement.closest('.episode-row');
-        const currentList = thumbElement.closest('.episodes-list');
-
-        currentList.style.height = 'auto';
-        episodeRow.appendChild(player);
+    <div class="card">
+        <h3>Adicionar Novo Álbum</h3>
+        <input type="number" id="albPosition" placeholder="Posição (ex: 1, 2, 3)">
+        <input type="text" id="albID" placeholder="ID (ex: britney-spears)">
+        <input type="text" id="albFolder" placeholder="Pasta">
+        <input type="text" id="albTitle" placeholder="Título">
+        <input type="text" id="albArtist" placeholder="Artista">
+        <input type="text" id="albYear" placeholder="Ano">
+        <input type="text" id="albCover" placeholder="Capa (ex: capa.jpg)">
+        <input type="text" id="albVideo" placeholder="Vídeo (opcional)">
         
-        iframe.src = videoUrl + (videoUrl.includes('?') ? '&' : '?') + 'autoplay=1';
-        player.style.display = 'block';
-
-        currentList.style.height = currentList.scrollHeight + "px";
-        player.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    function closeLocalPlayer() {
-        const player = document.getElementById('globalPlayer');
-        const iframe = document.getElementById('localIframe');
+        <input type="number" id="numTracks" placeholder="Quantidade de Músicas" onchange="createTrackInputs()">
+        <div id="trackInputs"></div>
         
-        if(player.style.display === 'block') {
-            iframe.src = "";
-            player.style.display = 'none';
-            
-            const currentList = player.closest('.episodes-list');
-            if(currentList) {
-                currentList.style.height = 'auto';
-                currentList.style.height = currentList.scrollHeight + "px";
+        <button onclick="addAlbum()">Adicionar ao Gerador</button>
+    </div>
+
+    <div class="card">
+        <button onclick="generateCode()" style="background: green; color: white;">Gerar Código Final (HTML)</button>
+        <textarea id="output" rows="10" placeholder="O código gerado aparecerá aqui..."></textarea>
+    </div>
+
+    <script>
+        let albunsLista = [];
+
+        function createTrackInputs() {
+            const num = document.getElementById('numTracks').value;
+            const container = document.getElementById('trackInputs');
+            container.innerHTML = '';
+            for(let i=1; i<=num; i++) {
+                container.innerHTML += `
+                    <div>
+                        <span>${i}</span>
+                        <input type="text" class="trackTitle" placeholder="Nome da música">
+                        <input type="text" class="trackFile" placeholder="Nome do arquivo.mp3">
+                    </div>`;
             }
         }
-    }
-</script>
 
+        function addAlbum() {
+            const num = document.getElementById('numTracks').value;
+            let tracks = [];
+            document.querySelectorAll('#trackInputs > div').forEach((div, idx) => {
+                tracks.push({
+                    num: (idx + 1).toString(),
+                    title: div.querySelector('.trackTitle').value,
+                    file: div.querySelector('.trackFile').value
+                });
+            });
+
+            const novoAlbum = {
+                id: document.getElementById('albID').value,
+                folder: document.getElementById('albFolder').value,
+                title: document.getElementById('albTitle').value,
+                artist: document.getElementById('albArtist').value,
+                year: document.getElementById('albYear').value,
+                cover: document.getElementById('albCover').value,
+                video: document.getElementById('albVideo').value,
+                tracks: tracks
+            };
+
+            albunsLista.push(novoAlbum);
+            alert("Álbum adicionado ao rascunho!");
+        }
+
+        function generateCode() {
+            // Aqui ele gera o formato do array que seu index.html usa
+            const jsonCode = JSON.stringify(albunsLista, null, 4);
+            const finalHTML = `const albums = ${jsonCode};`;
+            document.getElementById('output').value = finalHTML;
+        }
+    </script>
 </body>
 </html>
